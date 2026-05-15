@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from app.db.database import get_db
 from app.schemas import UserResponse, UserStickerResponse, UserStickerUpdate, StatsResponse
 from app.models import User, Sticker, UserSticker, StickerStatus as StickerStatusEnum
@@ -17,7 +17,7 @@ async def get_current_user_info(current_user: User = Depends(get_current_user)):
 
 @router.get("/me/stickers", response_model=List[UserStickerResponse])
 async def get_my_stickers(
-    status: str | None = None,
+    status: Optional[str] = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):

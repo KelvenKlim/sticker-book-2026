@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from app.db.database import get_db
 from app.schemas import StickerResponse, UserStickerResponse, UserStickerUpdate, StatsResponse
 from app.models import Sticker, UserSticker, User, StickerStatus
@@ -11,7 +11,7 @@ router = APIRouter()
 
 @router.get("/", response_model=List[StickerResponse])
 async def get_all_stickers(
-    category: str | None = None,
+    category: Optional[str] = None,
     db: Session = Depends(get_db),
 ):
     """Listar todas as figurinhas do catálogo"""
